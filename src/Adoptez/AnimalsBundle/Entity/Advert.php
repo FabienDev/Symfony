@@ -203,7 +203,6 @@ class Advert
     public function setPublished($published)
     {
         $this->published = $published;
-
         return $this;
     }
 
