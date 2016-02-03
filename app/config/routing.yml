@@ -1,0 +1,6 @@
+# app/config/routing.yml
+adoptez_animals:
+    resource: "@AdoptezAnimalsBundle/Resources/config/routing.yml"
+    prefix:   /
+
+

@@ -1,0 +1,219 @@
+<?php
+
+namespace Adoptez\AnimalsBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Advert
+ *
+ * @ORM\Table(name="advert")
+ * @ORM\Entity(repositoryClass="Adoptez\AnimalsBundle\Repository\AdvertRepository")
+ */
+class Advert
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255)
+     */
+    private $name;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="memberID", type="integer")
+     */
+    private $memberID;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text")
+     */
+    private $description;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="birthday", type="date")
+     */
+    private $birthday;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="published", type="boolean")
+     */
+    private $published;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="idAnimal", type="integer")
+     */
+    private $idAnimal;
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return Advert
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set memberID
+     *
+     * @param integer $memberID
+     *
+     * @return Advert
+     */
+    public function setMemberID($memberID)
+    {
+        $this->memberID = $memberID;
+
+        return $this;
+    }
+
+    /**
+     * Get memberID
+     *
+     * @return int
+     */
+    public function getMemberID()
+    {
+        return $this->memberID;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Advert
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set birthday
+     *
+     * @param \DateTime $birthday
+     *
+     * @return Advert
+     */
+    public function setBirthday($birthday)
+    {
+        $this->birthday = $birthday;
+
+        return $this;
+    }
+
+    /**
+     * Get birthday
+     *
+     * @return \DateTime
+     */
+    public function getBirthday()
+    {
+        return $this->birthday;
+    }
+
+    /**
+     * Set idAnimal
+     *
+     * @param integer $idAnimal
+     *
+     * @return Advert
+     */
+    public function setIdAnimal($idAnimal)
+    {
+        $this->idAnimal = $idAnimal;
+
+        return $this;
+    }
+
+    /**
+     * Get idAnimal
+     *
+     * @return int
+     */
+    public function getIdAnimal()
+    {
+        return $this->idAnimal;
+    }
+
+    /**
+     * Set published
+     *
+     * @param boolean $published
+     *
+     * @return Advert
+     */
+    public function setPublished($published)
+    {
+        $this->published = $published;
+
+        return $this;
+    }
+
+    /**
+     * Get published
+     *
+     * @return boolean
+     */
+    public function getPublished()
+    {
+        return $this->published;
+    }
+}
