@@ -5,6 +5,7 @@
 namespace Adoptez\AnimalsBundle\Controller;
 
 use Adoptez\AnimalsBundle\Entity\Advert;
+use Adoptez\AnimalsBundle\Entity\Pictures;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,14 +25,19 @@ class AdvertController extends Controller
     public function addAction(Request $request){
         $advert = new Advert();
         $advert->setName('Gaya');
-        $advert->setMemberID('1');
         $advert->setDescription("Magnifique Border Collie servant d'exemple");
-        $advert->setIdAnimal("1"); /* chien */
         $advert->setPublished("1");
+
+        $picture = new Pictures();
+        $picture->setUrl("file:///C:/Users/Fabien/Desktop/11415371_10206658863612348_5293491148816802510_n.jpg");
+        $picture->setAlt("Gaya Border Collie");
+        $picture->setPosition(1);
 
         // On récupère et persiste l'entité
         $em = $this->getDoctrine()->getManager();
         $em->persist($advert);
+        $em->persist($picture);
+
         $em->flush();
 
         if ($request->isMethod('POST')) {
@@ -55,8 +61,14 @@ class AdvertController extends Controller
             throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
         }
 
+        $listPictures = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('AdoptezAnimalsBundle:Pictures')
+            ->findBy(array('advert' => $advert));
+
         return $this->render('AdoptezAnimalsBundle:Advert:view.html.twig', array(
-            'advert' => $advert
+            'advert' => $advert,
+            'listPictures' => $listPictures
         ));
     }
 
