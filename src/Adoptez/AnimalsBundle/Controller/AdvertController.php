@@ -4,8 +4,11 @@
 
 namespace Adoptez\AnimalsBundle\Controller;
 
+use Adoptez\AnimalsBundle\Entity\Advert;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AdvertController extends Controller
 {
@@ -18,9 +21,43 @@ class AdvertController extends Controller
         return new Response($content);
     }
 
+    public function addAction(Request $request){
+        $advert = new Advert();
+        $advert->setName('Gaya');
+        $advert->setMemberID('1');
+        $advert->setDescription("Magnifique Border Collie servant d'exemple");
+        $advert->setIdAnimal("1"); /* chien */
+        $advert->setPublished("1");
+
+        // On récupère et persiste l'entité
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($advert);
+        $em->flush();
+
+        if ($request->isMethod('POST')) {
+            $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
+            return $this->redirect($this->generateUrl('adoptez_animals_view', array('id' => $advert->getId())));
+        }
+
+        return $this->render('AdoptezAnimalsBundle:Advert:add.html.twig');
+    }
+
     public function viewAction($id)
     {
-        return new Response("Affichage de l'annonce d'id : ".$id);
+        $repository = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('AdoptezAnimalsBundle:Advert')
+        ;
+
+        $advert = $repository->find($id);
+
+        if (null === $advert) {
+            throw new NotFoundHttpException("L'annonce d'id ".$id." n'existe pas.");
+        }
+
+        return $this->render('AdoptezAnimalsBundle:Advert:view.html.twig', array(
+            'advert' => $advert
+        ));
     }
 
     public function listingAction($place, $animal, $page)
