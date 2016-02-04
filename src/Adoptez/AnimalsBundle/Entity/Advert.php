@@ -3,13 +3,16 @@
 namespace Adoptez\AnimalsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Advert
  *
  * @ORM\Table(name="advert")
  * @ORM\Entity(repositoryClass="Adoptez\AnimalsBundle\Repository\AdvertRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
+
 class Advert
 {
     /**
@@ -28,12 +31,12 @@ class Advert
      */
     private $name;
 
+
     /**
-     * @var int
-     *
-     * @ORM\Column(name="memberID", type="integer")
+     * @Gedmo\Slug(fields={"name"})
+     * @ORM\Column(length=128, unique=true)
      */
-    private $memberID;
+    private $slug;
 
     /**
      * @var string
@@ -45,7 +48,7 @@ class Advert
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="birthday", type="date")
+     * @ORM\Column(name="birthday", type="date", nullable=true)
      */
     private $birthday;
 
@@ -57,11 +60,9 @@ class Advert
     private $published;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="idAnimal", type="integer")
+     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
-    private $idAnimal;
+    private $updated_at;
 
     /**
      * Get id
@@ -95,30 +96,6 @@ class Advert
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * Set memberID
-     *
-     * @param integer $memberID
-     *
-     * @return Advert
-     */
-    public function setMemberID($memberID)
-    {
-        $this->memberID = $memberID;
-
-        return $this;
-    }
-
-    /**
-     * Get memberID
-     *
-     * @return int
-     */
-    public function getMemberID()
-    {
-        return $this->memberID;
     }
 
     /**
@@ -170,30 +147,6 @@ class Advert
     }
 
     /**
-     * Set idAnimal
-     *
-     * @param integer $idAnimal
-     *
-     * @return Advert
-     */
-    public function setIdAnimal($idAnimal)
-    {
-        $this->idAnimal = $idAnimal;
-
-        return $this;
-    }
-
-    /**
-     * Get idAnimal
-     *
-     * @return int
-     */
-    public function getIdAnimal()
-    {
-        return $this->idAnimal;
-    }
-
-    /**
      * Set published
      *
      * @param boolean $published
@@ -203,6 +156,7 @@ class Advert
     public function setPublished($published)
     {
         $this->published = $published;
+
         return $this;
     }
 
@@ -214,5 +168,39 @@ class Advert
     public function getPublished()
     {
         return $this->published;
+    }
+
+
+    /**
+     * Get updated_at
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updated_at;
+    }
+
+    /**
+     * Set updated_at
+     *
+     * @param \DateTime $updated_at
+     *
+     * @return Advert
+     */
+    public function setUpdatedAt($updated_at)
+    {
+        $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+
+    public function updatedDate()
+    {
+        $this->setUpdatedAt(new \Datetime());
     }
 }
