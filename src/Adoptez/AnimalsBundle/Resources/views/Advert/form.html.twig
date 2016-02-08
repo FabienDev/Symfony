@@ -1,0 +1,34 @@
+{# src/Adoptez/AnimalsBundle/Resources/views/Advert/form.html.twig #}
+
+<h3>Formulaire d'annonce</h3>
+
+<div class="well">
+    {{ form_start(form, {'attr': {'class': 'add_update_form'}}) }}
+
+    {{ form_errors(form, {'attr': {'class' : 'error-msg'}}) }}
+
+
+    <div class="form-group">
+        {{ form_label(form.name, "Nom de l'animal") }}
+
+        {{ form_errors(form.name, {'attr': {'class' : 'error-msg'}}) }}
+
+        {{ form_widget(form.name) }}
+
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.description, "Présentation", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+        {{ form_errors(form.description, {'attr': {'class' : 'error-msg'}}) }}
+        {{ form_widget(form.description) }}
+    </div>
+
+    {{ form_row(form.birthday) }} {# génération auto sans style particulier #}
+    {{ form_row(form.published) }}
+
+    {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+
+    {{ form_rest(form) }}
+
+    {{ form_end(form) }}
+</div>

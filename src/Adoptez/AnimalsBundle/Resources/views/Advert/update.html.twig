@@ -1,0 +1,11 @@
+{% extends "AdoptezAnimalsBundle::layout.html.twig" %}
+
+{% block title %}
+   Modification d'une fiche animal {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="update-animal formclass">
+        {% include 'AdoptezAnimalsBundle:Advert:form.html.twig' %}
+    </div>
+{% endblock %}

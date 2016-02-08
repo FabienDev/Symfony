@@ -1,0 +1,14 @@
+{% extends "AdoptezAnimalsBundle::layout.html.twig" %}
+
+{% block title %}
+    Annonce {{ advert.id }}{{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <h1>Annonce de {{ advert.name }}</h1>
+    <p>{{ advert.description }}</p>
+    {% for picture in listPictures %}
+      <img src="{{ picture.url }}" alt="{{ picture.alt }}" />
+    {% endfor %}
+    <ul id="navigation">
+{% endblock %}
