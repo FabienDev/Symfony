@@ -5,45 +5,35 @@
 namespace Adoptez\AnimalsBundle\Controller;
 
 use Adoptez\AnimalsBundle\Entity\Advert;
+use Adoptez\AnimalsBundle\Form\AdvertType;
 use Adoptez\AnimalsBundle\Entity\Pictures;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Form\Forms;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
 
 class AdvertController extends Controller
 {
     public function indexAction()
     {
-        $content = $this->get('templating')->render('AdoptezAnimalsBundle:Advert:index.html.twig', array(
-            'nom' => 'veyrat',
-            'prenom' => 'fabien'
+        $repository = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('AdoptezAnimalsBundle:Advert')
+        ;
+
+        $adverts = $repository->findAll();
+
+        return $this->render('AdoptezAnimalsBundle:Advert:index.html.twig', array(
+            'adverts' => $adverts
         ));
-        return new Response($content);
+
     }
 
     public function addAction(Request $request){
         $advert = new Advert();
 
-        $formBuilder = $this->createFormBuilder($advert);
-
-        $formBuilder
-            ->add('name', TextType::class)
-            ->add('description', TextareaType::class)
-            ->add('birthday', DateType::class)
-            ->add('published', CheckboxType::class)
-            ->add('save', SubmitType::class)
-        ;
-
-        $form = $formBuilder->getForm();
-
+        $form = $this->createForm(AdvertType::class, $advert);
         $form->handleRequest($request);
         /*$picture = new Pictures();
         $picture->setUrl("file:///C:/Users/Fabien/Desktop/11415371_10206658863612348_5293491148816802510_n.jpg");
@@ -64,8 +54,7 @@ class AdvertController extends Controller
                 return $this->redirect($this->generateUrl('adoptez_animals_view', array('id' => $advert->getId())));
             }
         }
-
-        return $this->render('AdoptezAnimalsBundle:Advert:add.html.twig', array(
+       return $this->render('AdoptezAnimalsBundle:Advert:add.html.twig', array(
             'form' => $form->createView()
         ));
     }
@@ -78,22 +67,22 @@ class AdvertController extends Controller
 
         $advert = $repository->find($id);
 
-        $advert->setName('Cachou');
-        $advert->setDescription("Croisé border collie / Coker");
-        $advert->setPublished("1");
+        $form = $this->createForm(AdvertType::class, $advert);
+        $form->handleRequest($request);
 
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($advert);
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($advert);
 
-        $em->flush();
-
-        if ($request->isMethod('POST')) {
+            $em->flush();
             $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
             return $this->redirect($this->generateUrl('adoptez_animals_update', array('id' => $advert->getId())));
+
         }
 
         return $this->render('AdoptezAnimalsBundle:Advert:update.html.twig', array(
-            'advert' => $advert
+            'advert' => $advert,
+            'form' => $form->createView()
         ));
     }
 
@@ -123,6 +112,8 @@ class AdvertController extends Controller
 
     public function listingAction($place, $animal, $page)
     {
+
+
         $content = $this->get('templating')
                         ->render('AdoptezAnimalsBundle:Advert:listing.html.twig', array(
                             'place' => $place,

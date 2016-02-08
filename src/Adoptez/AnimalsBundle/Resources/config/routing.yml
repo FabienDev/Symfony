@@ -5,6 +5,31 @@ adoptez_animals_home:
     path:     /
     defaults: { _controller: AdoptezAnimalsBundle:Advert:index }
 
+# add animal
+adoptez_animals_add:
+    path:      /ajouter
+    defaults:  { _controller: AdoptezAnimalsBundle:Advert:add }
+
+# animal view
+adoptez_animals_view:
+    path:      /{id}
+    defaults:  { _controller: AdoptezAnimalsBundle:Advert:view }
+
+
+# edit animal
+adoptez_animals_update:
+    path:      /modifier/{id}
+    defaults:  { _controller: AdoptezAnimalsBundle:Advert:update }
+    requirements:
+        id: \d+
+
+# delete animal adopted
+adoptez_animals_adopt:
+    path:      /supprimer/{id}
+    defaults:  { _controller: AdoptezAnimalsBundle:Advert:adopt }
+    requirements:
+        id: \d+
+
 # animals listing
 adoptez_animals_list:
     path:      /{place}/{animal}/{page}
@@ -15,27 +40,3 @@ adoptez_animals_list:
         page: 1
     requirements:
         page: \d*
-
-# animal view
-adoptez_animals_view:
-    path:      /{place}/{animal}/{idName}
-    defaults:  { _controller: AdoptezAnimalsBundle:Advert:view }
-
-# add animal
-adoptez_animals_add:
-    path:      /ajouter
-    defaults:  { _controller: AdoptezAnimalsBundle:Advert:add }
-
-# edit animal
-adoptez_animals_edit:
-    path:      /modifier/{id}
-    defaults:  { _controller: AdoptezAnimalsBundle:Advert:edit }
-    requirements:
-        id: \d+
-
-# delete animal adopted
-adoptez_animals_adopt:
-    path:      /supprimer/{id}
-    defaults:  { _controller: AdoptezAnimalsBundle:Advert:adopt }
-    requirements:
-        id: \d+

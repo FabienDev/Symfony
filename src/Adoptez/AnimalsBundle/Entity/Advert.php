@@ -2,6 +2,7 @@
 
 namespace Adoptez\AnimalsBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -55,14 +56,18 @@ class Advert
     /**
      * @var int
      *
-     * @ORM\Column(name="published", type="boolean")
+     * @ORM\Column(name="published", type="boolean", nullable=true)
      */
-    private $published;
+    private $published = true;
 
     /**
      * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
     private $updated_at;
+
+    public function __construct(){
+
+    }
 
     /**
      * Get id

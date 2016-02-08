@@ -1,13 +1,13 @@
-<!DOCTYPE html>
-    <html>
-    <head>
-        <title>Listing</title>
-    </head>
-    <body>
+{% extends "AdoptezAnimalsBundle::layout.html.twig" %}
+
+{% block title %}
+    Liste des animaux à l'adoptions {{ parent() }}
+{% endblock %}
+
+{% block body %}
     <h1>Listes des {{ animal }} en {{ place }}</h1>
 
     <ul id="navigation">
 
     </ul>
-    </body>
-</html>
+{% endblock %}
