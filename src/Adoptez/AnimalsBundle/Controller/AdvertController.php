@@ -32,17 +32,11 @@ class AdvertController extends Controller
 
     public function addAction(Request $request){
         $advert = new Advert();
-
         $form = $this->createForm(AdvertType::class, $advert);
-        $form->handleRequest($request);
-        /*$picture = new Pictures();
-        $picture->setUrl("file:///C:/Users/Fabien/Desktop/11415371_10206658863612348_5293491148816802510_n.jpg");
-        $picture->setAlt("Gaya Border Collie");
-        $picture->setPosition(1);
-        $picture->setAdvert($advert);*/
 
-        if ($form->isValid()) {
-            // On récupère et persiste l'entité
+        if ($form->handleRequest($request)->isValid()) {
+            $advert->getPictures()->upload();
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($advert);
             // $em->persist($picture);
